@@ -43,7 +43,7 @@ class Game extends ScreenObject {
 
          if(player1.getHp() <=0){
            currentLevel.levelComplete = true;
-           screenController = new StartButton(new QuitButton(new Menu(player1Controller), 100, 130), 100, 100);
+           screenController = new StartButton(new QuitButton(new Menu(player1Controller), 100, 350), 100, 175);
          }
 
       } else {
