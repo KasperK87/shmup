@@ -91,20 +91,29 @@ class Beam extends Bullet {
 }
 
 class Weapon extends ScreenObject {
+  PVector weaponOffset;
   boolean isShooting;
   PVector origin;
   PVector dir;
+  int b = 0;
 
   Weapon(PVector setOrigin) {
     origin = setOrigin;
     dir = new PVector(0, -5);
+  }
+  
+  void setWeaponOffset(PVector offset){
+    weaponOffset.x = 0;
+    weaponOffset.y = -offset.y/2;
+    
+    
   }
 
   Weapon(PVector setOrigin, PVector setDir) {
     origin = setOrigin;
     dir = setDir;
   }
-  int b = 0;
+  
   boolean fire() {
 
     isShooting = true;
@@ -129,6 +138,7 @@ class Weapon extends ScreenObject {
   }
 
   void update(float dt) {
+    
   }
 
   void setOrigin(PVector set) {
@@ -142,11 +152,12 @@ class BasicPlayerWeapon extends Weapon {
     super(setOrigin);
   }
 
-  BasicPlayerWeapon(PVector setOrigin, PVector setDir) {
+  BasicPlayerWeapon(PVector setOrigin, PVector setDir, PVector setOffset) {
     super(setOrigin, setDir);
+    weaponOffset = setOffset;
   }
-  int bu = 0;
   boolean fire() {
+<<<<<<< HEAD
     isShooting = true;
 
     if (bu == 10 || isShooting == false) {
@@ -187,7 +198,18 @@ class LaserBeamWeapon extends Weapon {
 
     if (isShooting == true) {
       bu++;
+=======
+    
+    
+    if (b >= 20 || isShooting == false) {
+      currentGame.gameObjects.add(new Bullet(new PVector(origin.x + weaponOffset.x, origin.y + weaponOffset.y), dir.y, true));
+      b=0;
+>>>>>>> refs/remotes/KasperK87/master
     }
+    
+      b++;
+ 
+    isShooting = true;
     return isShooting;
   }
 }
