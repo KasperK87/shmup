@@ -14,7 +14,6 @@ class Game extends ScreenObject {
   ArrayList<GameObject> shipObjects = new ArrayList<GameObject>();
   
   Game(){
-    
     player1 = new Player(player1Controller, new BasicPlayerWeapon(new PVector(), new PVector(0, 5), new PVector()), playerSprite);
     player1.getWeapon().setWeaponOffset(player1.getSize());
     playerSprite.resize(88,112);

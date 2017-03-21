@@ -59,7 +59,7 @@ class Beam extends Bullet {
 
   // origin has to refenrence the ships pos!!!
   Beam(PVector origin, float setSpeed, boolean isFriendly) {
-    size = new PVector(3, 3);
+    size = new PVector(3, -300);
 
     setDir(new PVector(0, -1));
     friendly = isFriendly;
@@ -82,7 +82,7 @@ class Beam extends Bullet {
 
   void render() {
     fill(0, 255, 0);
-    rect(getX(), getY(), 10, -height);
+    rect(getX(), getY(), getSize().x, getSize().y);
   }
 
   void effect(Ship target) {
@@ -105,8 +105,6 @@ class Weapon extends ScreenObject {
   void setWeaponOffset(PVector offset){
     weaponOffset.x = 0;
     weaponOffset.y = -offset.y/2;
-    
-    
   }
 
   Weapon(PVector setOrigin, PVector setDir) {
@@ -157,19 +155,19 @@ class BasicPlayerWeapon extends Weapon {
     weaponOffset = setOffset;
   }
   boolean fire() {
-<<<<<<< HEAD
+
     isShooting = true;
 
-    if (bu == 10 || isShooting == false) {
-      bu = 0;
+    if (b == 10 || isShooting == false) {
+      b = 0;
     }
 
-    if (bu == 0 && isShooting == true) {
+    if (b == 0 && isShooting == true) {
       currentGame.gameObjects.add(new Bullet(origin, dir.y, true));
     }
 
     if (isShooting == true) {
-      bu++;
+      b++;
     }
     return isShooting;
   }
@@ -184,32 +182,27 @@ class LaserBeamWeapon extends Weapon {
   LaserBeamWeapon(PVector setOrigin, PVector setDir) {
     super(setOrigin, setDir);
   }
-  int bu = 0;
+  int b = 0;
+  
+  void setWeaponOffset(PVector offset){
+  
+  }
+  
   boolean fire() {
     isShooting = true;
-
-    if (bu == 10 || isShooting == false) {
-      bu = 0;
+  
+     if (b == 10 || isShooting == false) {
+      b = 0;
     }
-
-    if (bu == 0 && isShooting == true) {
+    
+    if (b == 0 && isShooting == true) {
+      //currentGame.gameObjects.add(new Bullet(origin, dir.y));
       currentGame.gameObjects.add(new Beam(origin, dir.y, true));
     }
-
+    
     if (isShooting == true) {
-      bu++;
-=======
-    
-    
-    if (b >= 20 || isShooting == false) {
-      currentGame.gameObjects.add(new Bullet(new PVector(origin.x + weaponOffset.x, origin.y + weaponOffset.y), dir.y, true));
-      b=0;
->>>>>>> refs/remotes/KasperK87/master
-    }
-    
       b++;
- 
-    isShooting = true;
+    }
     return isShooting;
   }
 }
