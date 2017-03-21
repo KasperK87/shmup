@@ -5,7 +5,6 @@ PlayerController player1Controller;
 PlayerController player2Controller;
 
 void setup(){
-  //size(800,600);
   fullScreen(); 
   player1Controller = new PlayerController();
   screenController = new SplashScreen();

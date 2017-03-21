@@ -229,7 +229,7 @@ class Player extends Ship {
   Player(Controller setController, Weapon setWeapon, PImage setSprite) {
     controller = setController;
     sprite = setSprite;
-    weapon = setWeapon;
+    weapon = new LaserBeamWeapon(pos);
     setSpeed(10);
     setHp(10);
        
