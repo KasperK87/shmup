@@ -120,7 +120,7 @@ class Ship extends GameObject{
        setHp(10);
        
        pos = new PVector(width/2, height-100);
-       weapon = new BasicPlayerWeapon(pos, new PVector(0, 5), new PVector());
+       weapon = new BasicPlayerWeapon(pos, new PVector(0, 5));
     } 
   }
   
@@ -148,17 +148,11 @@ class Ship extends GameObject{
       getWeapon().fire();
     }
     
-    if (controller.getSTATE() == 0){
-      getWeapon().ceaseFire();
-    }
-    
     //move ship
     setX(getX()+getDir().x*getSpeed());
     setY(getY()+getDir().y*getSpeed());
     
     getController().update(getPos());
-    
-    weapon.update(dt);
   }
   
   void render(){
@@ -202,11 +196,9 @@ class Ship extends GameObject{
 
 class BasicEnemy extends Ship {
   
-   BasicEnemy(Controller setController, float setX, float setY, PImage setSprite){
+   BasicEnemy(Controller setController, float setX, float setY){
     controller = setController;
-    sprite = setSprite;
-    
-    //loadImage("Minion.png");
+    sprite = loadImage("Minion.png");
     
     pos = new PVector(setX, setY);
     dir = new PVector(0, 0);
@@ -237,7 +229,7 @@ class Player extends Ship {
   Player(Controller setController, Weapon setWeapon, PImage setSprite) {
     controller = setController;
     sprite = setSprite;
-    weapon = setWeapon;
+    weapon = new LaserBeamWeapon(pos);
     setSpeed(10);
     setHp(10);
        
@@ -251,24 +243,6 @@ class Player extends Ship {
   
   void render(){
     image(sprite, getPos().x, getPos().y);
-  }
-  void setX(float x){
-   if(x>5&&x<width-5){
-      pos.x = x;
-     }else if(x<5){
-     pos.x=6;
-     }else{
-     pos.x=width-6;
-     }
-   }
-   
-   void setY(float y){
-     if(y>5&&y<height-5){
-       pos.y = y;
-       }else if(y<5){
-       pos.y=6;
-     }else{
-       pos.y=height-6;
-     }
+
   }
 }

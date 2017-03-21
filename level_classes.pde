@@ -1,12 +1,11 @@
 class Level extends ScreenObject {
-
-  //PImage background;
-  BackgroundScreen background;
-
+  PImage background;
+  PFont font;
   float scroll;
 
   PImage minion;
   PImage boss;
+
 
   Ship player1; 
   Ship finalBoss;
@@ -16,11 +15,10 @@ class Level extends ScreenObject {
 
   Level() {
   }
-  
-  Level(Ship refPlayer1, ArrayList<GameObject> refShipObjects, ArrayList<GameObject> refGameObjects){
-    background = new BackgroundScreen();
-    //background = loadImage("level1.bmp");
 
+  Level(Ship refPlayer1, ArrayList<GameObject> refShipObjects, ArrayList<GameObject> refGameObjects) {
+    background = loadImage("level1.bmp");
+    background.resize(width, 3000); //For Arved
     player1 = refPlayer1;
     levelComplete = false;
     shipObjects = refShipObjects;
@@ -31,22 +29,15 @@ class Level extends ScreenObject {
 
   void update(float dt) {
     scroll++;
-    
-    
-    for(int i = 0;i <= 30;i++){
-      
-    }
-    if (scroll == 600){
-      Ship bar = new BasicEnemy(new BasicEnemyController(player1.getPos()), width-101, 0, minion); //new Ship(new BasicEnemyController(player1.getPos()), 0, 0);
-      Ship foo = new BasicEnemy(new BasicEnemyController(player1.getPos()), width-101, 0, minion);
+
+    if (scroll == 600) {
+      Ship bar = new BasicEnemy(new BasicEnemyController(player1.getPos()), width-101, 0); //new Ship(new BasicEnemyController(player1.getPos()), 0, 0);
+      Ship foo = new BasicEnemy(new BasicEnemyController(player1.getPos()), width-101, 0);
       shipObjects.add(bar);
       shipObjects.add(foo);
     }
-
-    if (scroll == 1200){
-      finalBoss = new BasicEnemy(new BasicEnemyController(player1.getPos()), width/2, 0, boss );
-
-
+    if (scroll == 1200) {
+      finalBoss = new BasicEnemy(new BasicEnemyController(player1.getPos()), new BasicPlayerWeapon(player1.pos, new PVector(0, 5)), width/2, 0, boss);
       //finalBoss = new MakeBig(finalBoss);
       shipObjects.add(finalBoss);
     }
@@ -55,16 +46,19 @@ class Level extends ScreenObject {
     if (finalBoss != null && finalBoss.remove) {
       levelComplete = true;
     }
-    
-    background.update(dt);
   }
 
   void render() {
     //image(background, background.width/2, scroll); //For alle andre...
     //image(background, background.width*1.5, scroll);
     //image(background, background.width*2.5, scroll);
-    //image(background, background.width/2, scroll);
-    background.render();
+    image(background, background.width/2, scroll);
+    pushMatrix();
+    fill(0);
+    font = createFont("LDFComicSansLight.ttf", 50);
+    textFont(font);
+    text("HP " + player1.HP, 50, 100);
+    popMatrix();
   }
 
   Level nextLevel(Ship refPlayer1, ArrayList<GameObject> refShipObjects, ArrayList<GameObject> refGameObjects) {
@@ -78,44 +72,40 @@ class Level extends ScreenObject {
   }
 }
 
+class Level2 extends Level {
 
-class Level2 extends Level{
-  
-  Level2(Ship refPlayer1, ArrayList<GameObject> refShipObjects, ArrayList<GameObject> refGameObjects){
-    //background = loadImage("level2.bmp");
-    background = new BackgroundScreen();
-
-
+  Level2(Ship refPlayer1, ArrayList<GameObject> refShipObjects, ArrayList<GameObject> refGameObjects) {
+    background = loadImage("level2.bmp");
+    background.resize(width, 3000);
     player1 = refPlayer1;
     shipObjects = refShipObjects;
     gameObjects = refGameObjects;
-    
-    minion = loadImage("Minion.png");
   }
 
-  void update(float dt){
+  void update(float dt) {
     scroll++;
-    if (scroll == 100){
-      PowerUp foo = new FullHP(new PVector(width/2, 1), 5);
+    if (scroll == 100) {
+      PowerUp foo = new PowerUp(new PVector(width/2, 1), 5);
       gameObjects.add(foo);
     }
-    if (scroll == 600){
-      Ship bar = new BasicEnemy(new BasicEnemyController(player1.getPos()), 0, 0, minion);
-      Ship foo = new BasicEnemy(new BasicEnemyController(player1.getPos()), width, 0, minion);
+
+    if (scroll == 600) {
+      Ship bar = new BasicEnemy(new BasicEnemyController(player1.getPos()), 0, 0);
+      Ship foo = new BasicEnemy(new BasicEnemyController(player1.getPos()), width, 0);
       shipObjects.add(bar);
       shipObjects.add(foo);
-      
-      Ship baar = new BasicEnemy(new BasicEnemyController(player1.getPos()), width/2, 0, minion);
-      Ship fooo = new BasicEnemy(new BasicEnemyController(player1.getPos()), width/2, -100, minion);
+
+      Ship baar = new BasicEnemy(new BasicEnemyController(player1.getPos()), width/2, 0);
+      Ship fooo = new BasicEnemy(new BasicEnemyController(player1.getPos()), width/2, -100);
       shipObjects.add(baar);
       shipObjects.add(fooo);
     }
-    if (scroll == 1200){
-      Ship bar = new BasicEnemy(new BasicEnemyController(player1.getPos()), width/2, 0, minion);
+    if (scroll == 1200) {
+      Ship bar = new BasicEnemy(new BasicEnemyController(player1.getPos()), width/2, 0);
 
       bar = new MakeBig(bar);
       bar = new MakeBig(bar);
       shipObjects.add(bar);
-    }   
+    }
   }
 }

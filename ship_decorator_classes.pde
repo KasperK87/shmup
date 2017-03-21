@@ -40,14 +40,6 @@ class ShipDecorator extends Ship{
    boolean getRemove(){
      return decoratedShip.getRemove();
    }
-   
-  void setHp(int hitpoints){
-    decoratedShip.setHp(hitpoints);
-  }
-  
-  int getHp(){
-    return decoratedShip.getHp();
-   }
 }
 
 class MakeBig extends ShipDecorator{
@@ -57,7 +49,6 @@ class MakeBig extends ShipDecorator{
   
   MakeBig(Ship set){
     super(set);
-    HP = 10;
     setSize(new PVector(getSize().x*2,getSize().y*2));
     setSprite(loadImage("Player.png"));
     //setSprite(new PImage((int)getSize().x,(int)getSize().y));
