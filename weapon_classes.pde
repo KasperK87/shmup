@@ -49,7 +49,9 @@ class Beam extends Bullet {
   }
 
   Beam(PVector origin, float setSpeed) {
+
     size = new PVector(10, 50);
+
     setDir(new PVector(0, -1));
 
     setPos(new PVector(origin.x, origin.y));
@@ -59,6 +61,7 @@ class Beam extends Bullet {
 
   // origin has to refenrence the ships pos!!!
   Beam(PVector origin, float setSpeed, boolean isFriendly) {
+
     size = new PVector(10, height);
 
     setDir(new PVector(0, 1));
@@ -82,6 +85,7 @@ class Beam extends Bullet {
   }
 
   void render() {
+
     rectMode(CENTER);
     fill(0, 255, 0);
     rect(getX(), getY(), getSize().x, getSize().y);
