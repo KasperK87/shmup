@@ -2,20 +2,20 @@
 class BackgroundScreen extends ScreenObject{
   Particle[] stars;
   BackgroundScreen(){
-  stars = new Particle[100];
+  stars = new Particle[50];
   for (int i = 0; i < stars.length; i++){
     stars[i] = new Particle(random(width), random(height));
   }
   }
-  void update (float dt){
+  void update (float dt, float setSpeed){
   for (int i = 0;i < stars.length; i++){
-  stars[i].update();
+  stars[i].update(setSpeed);
   }
   }
    
-  void render() {
+  void render(float setColor) {
   for (int i = 0;i < stars.length; i++){
-  stars[i].render();
+  stars[i].render(setColor);
   }
   
 
@@ -33,10 +33,10 @@ class Particle{
     y = setY;
     
   }
-    void update(){
+    void update(float setSpeed){
     //size += random(0.1,0.4);
     //size += 0.3;
-    speedY += speedY/pow(100,9999959)+0.001;
+    speedY += speedY/pow(100,99999)+0.001*setSpeed;
     y += map(size,2,5,speedY+random(0.2),speedY+random(0.2,0.5));
    
     
@@ -45,9 +45,9 @@ class Particle{
     }
     }
     
-    void render(){
+    void render(float setColor){
     noStroke();
-    fill(map(size,2,5,125,255));
+    fill(map(size,2,5,setColor/2,setColor));
     ellipse(x,y,size,size+speedY);
   }
 }
