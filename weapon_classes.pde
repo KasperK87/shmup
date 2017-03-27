@@ -44,30 +44,73 @@ class Bullet extends GameObject {
   }
 }
 
+class Beam extends Bullet {
+  Beam() {
+  }
+
+  Beam(PVector origin, float setSpeed) {
+
+    size = new PVector(10, 50);
+
+    setDir(new PVector(0, -1));
+
+    setPos(new PVector(origin.x, origin.y));
+
+    setSpeed(setSpeed);
+  }
+
+  // origin has to refenrence the ships pos!!!
+  Beam(PVector origin, float setSpeed, boolean isFriendly) {
+
+    size = new PVector(10, height);
+
+    setDir(new PVector(0, 1));
+    friendly = isFriendly;
+
+    setPos(new PVector(origin.x, origin.y-height/2));
+
+    setSpeed(setSpeed);
+  }
+
+  void update(float dt) {
+
+    //move bullet
+    setX(getX()+getDir().x*getSpeed());
+    setY(getY()+getDir().y*getSpeed());
+
+  //enlarged area behind the screen where the laser can be without being removed
+    if (getX() < -height || getY() < -width || getY() > height*2 || getX() > width*2) {
+      this.remove = true;
+    }
+  }
+
+  void render() {
+
+    rectMode(CENTER);
+    fill(0, 255, 0);
+    rect(getX(), getY(), getSize().x, getSize().y);
+  }
+
+  void effect(Ship target) {
+    target.setHp(-1);
+  }
+}
+
 class Weapon extends ScreenObject {
-  PVector weaponOffset;
   boolean isShooting;
   PVector origin;
   PVector dir;
-  int b = 0;
 
   Weapon(PVector setOrigin) {
     origin = setOrigin;
     dir = new PVector(0, -5);
-  }
-  
-  void setWeaponOffset(PVector offset){
-    weaponOffset.x = 0;
-    weaponOffset.y = -offset.y/2;
-    
-    
   }
 
   Weapon(PVector setOrigin, PVector setDir) {
     origin = setOrigin;
     dir = setDir;
   }
-  
+  int b = 0;
   boolean fire() {
 
     isShooting = true;
@@ -92,7 +135,6 @@ class Weapon extends ScreenObject {
   }
 
   void update(float dt) {
-    
   }
 
   void setOrigin(PVector set) {
@@ -106,21 +148,52 @@ class BasicPlayerWeapon extends Weapon {
     super(setOrigin);
   }
 
-  BasicPlayerWeapon(PVector setOrigin, PVector setDir, PVector setOffset) {
+  BasicPlayerWeapon(PVector setOrigin, PVector setDir) {
     super(setOrigin, setDir);
-    weaponOffset = setOffset;
   }
+  int bu = 0;
   boolean fire() {
-    
-    
-    if (b >= 20 || isShooting == false) {
-      currentGame.gameObjects.add(new Bullet(new PVector(origin.x + weaponOffset.x, origin.y + weaponOffset.y), dir.y, true));
-      b=0;
-    }
-    
-      b++;
- 
     isShooting = true;
+
+    if (bu == 10 || isShooting == false) {
+      bu = 0;
+    }
+
+    if (bu == 0 && isShooting == true) {
+      currentGame.gameObjects.add(new Bullet(origin, dir.y, true));
+    }
+
+    if (isShooting == true) {
+      bu++;
+    }
+    return isShooting;
+  }
+}
+
+class LaserBeamWeapon extends Weapon {
+
+  LaserBeamWeapon(PVector setOrigin) {
+    super(setOrigin);
+  }
+
+  LaserBeamWeapon(PVector setOrigin, PVector setDir) {
+    super(setOrigin, setDir);
+  }
+  int bu = 0;
+  boolean fire() {
+    isShooting = true;
+
+    if (bu == 10 || isShooting == false) {
+      bu = 0;
+    }
+
+    if (bu == 0 && isShooting == true) {
+      currentGame.gameObjects.add(new Beam(origin, 0, true));
+    }
+
+    if (isShooting == true) {
+      bu++;
+    }
     return isShooting;
   }
 }
