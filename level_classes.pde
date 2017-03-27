@@ -54,9 +54,10 @@ class Level extends ScreenObject {
     //win level condition
     if (finalBoss != null && finalBoss.remove) {
       levelComplete = true;
+      
     }
     
-    background.update(dt);
+    background.update(dt, 1);
   }
 
   void render() {
@@ -64,10 +65,11 @@ class Level extends ScreenObject {
     //image(background, background.width*1.5, scroll);
     //image(background, background.width*2.5, scroll);
     //image(background, background.width/2, scroll);
-    background.render();
+    background.render(random(255));
   }
 
   Level nextLevel(Ship refPlayer1, ArrayList<GameObject> refShipObjects, ArrayList<GameObject> refGameObjects) {
+   
 
     refPlayer1.pos.x = width/2;
     refPlayer1.pos.y = height-100;
@@ -95,6 +97,7 @@ class Level2 extends Level{
 
   void update(float dt){
     scroll++;
+    background.update(dt, 2);
     if (scroll == 100){
       PowerUp foo = new FullHP(new PVector(width/2, 1), 5);
       gameObjects.add(foo);
@@ -116,6 +119,8 @@ class Level2 extends Level{
       bar = new MakeBig(bar);
       bar = new MakeBig(bar);
       shipObjects.add(bar);
+      
+      background.update(dt,2000+scroll);
     }   
   }
 }

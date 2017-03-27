@@ -10,6 +10,7 @@ class ScreenObject {
 class Menu extends ScreenObject{
   Controller controller;
   float timer;
+  BackgroundScreen background = new BackgroundScreen();
   
   Menu(){
   }
@@ -20,14 +21,17 @@ class Menu extends ScreenObject{
   
   void render(){
     //Skifter baggrundsfarve på menuen
-    timer += dt;
-    if(timer>0.017*15){
-    background(random(255),random(255),random(255));
-    timer=0;
-  }
+    //timer += dt;
+    //if(timer>0.017*15){
+    //background(random(255),random(255),random(255));
+    //timer=0;
+    background(0);
+    background.render(random(255));
+    
   }
   
   void update(float dt){
+   background.update(dt, 1);
   }
   
   Controller getController(){
@@ -80,6 +84,13 @@ class QuitButton extends MenuDecorator{
       fill(255,100,100);
       
     rect(pos.x, pos.y, size.x, size.y);
+    
+    if (selected)
+      fill(255);
+    else
+      fill(0);
+    textSize(32);
+    text("Quit", pos.x+200, pos.y+70); 
   }
   
   public void update(float dt){
@@ -127,6 +138,12 @@ class StartButton extends MenuDecorator{
       fill(100,255,100); 
       
     rect(pos.x, pos.y, size.x, size.y);
+    if (selected)
+      fill(255);
+    else
+      fill(0);
+    textSize(32);
+    text("Start", pos.x+200, pos.y+70); 
   }
   
   public void update(float dt){
@@ -178,7 +195,7 @@ class SplashScreen extends ScreenObject {
   void update(float dt){
     timer+= dt;
     
-    if (timer >= 5){
+    if (timer >= 1){
       Menu newMenu = new Menu(player1Controller);
       newMenu = new QuitButton(newMenu, 100, 350);
       newMenu = new StartButton(newMenu, 100, 175);
